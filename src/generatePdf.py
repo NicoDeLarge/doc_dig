@@ -138,8 +138,21 @@ def build_completers(processed_dir):
     return creator_receiver_completer, topic_completer
 
 def get_scan_date_time_from_file_name(file):
-    match = re.search('_\d{8}_\d{6}_', file.name)
-    return datetime.datetime.strptime(match.group(0), '_%Y%m%d_%H%M%S_')
+    date = datetime.datetime.now()
+     
+    try: 
+        match1 = re.search('\d{8}_\d{6}', file.name)
+        date = datetime.datetime.strptime(match1.group(0), '%Y%m%d_%H%M%S')
+    except IndexError:
+        None
+    
+    try:
+        match2 = re.search('_\d{8}_\d{6}_', file.name)
+        datetime.datetime.strptime(match2.group(0), '_%Y%m%d_%H%M%S_')
+    except:
+        None 
+    
+    return date
 
 if inbox_dir.exists():
     creator_receiver_completer, topic_completer = build_completers(processed_dir)
